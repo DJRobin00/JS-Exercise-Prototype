@@ -39,7 +39,23 @@ Airplane.prototype.land = function () {
         + It should return a string with `name` and `age`. Example: "Mary, 50"
 */
 
-function Person() {
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+  this.stomach = [];
+}
+Person.prototype.eat = function(someFood) {
+  if (someFood === "edible" && this.stomach.length <= 10) {
+    this.stomach.push(someFood)
+  } 
+
+}
+Person.prototype.poop = function() {
+  this.stomach = [];
+
+}
+Person.prototype.toString = function(name, age) {
+  return `${name}, ${age}`
 
 }
 
@@ -57,9 +73,24 @@ function Person() {
         + The `drive` method should return a string "I ran out of fuel at x miles!" x being `odometer`.
 */
 
-function Car() {
-
-}
+  function Car(model, mpg){
+    this.model = model;
+    this.milesPerGallon = mpg;
+    this.tank = 0;
+    this.odometer = 0;
+};
+Car.prototype.fill = function(gallons){
+    this.tank = this.tank + gallons;
+};
+Car.prototype.drive = function(distance){
+    this.odometer = this.odometer + distance;
+    this.tank = this.tank - (distance/this.milesPerGallon);
+};
+Car.prototype.drive = function(){
+  if (this.tank === 0) {
+  return `I ran out of fuel at ${this.odometer}miles!`
+  };
+};
 
 /*
   TASK 3
@@ -68,20 +99,55 @@ function Car() {
     - Besides the methods on Person.prototype, babies have the ability to `.play()`:
         + Should return a string "Playing with x", x being the favorite toy.
 */
-function Baby() {
 
+
+function Baby(name, age, toy) {
+  this.name = name;
+  this.age = age;
+  this.favoriteToy = toy;
 }
-
+Baby.prototype.play = function () {
+  return `Playing with ${this.favoriteToy}`
+}
+// Baby.prototype = Object.create(Person.prototype);
 /* 
   TASK 4
 
   In your own words explain the four principles for the "this" keyword below:
-  1. 
-  2. 
-  3. 
-  4. 
-*/
 
+  1. Global Binding - "this" keyword refers to the entire console--potentially 
+      the whole JavaScript language--as one object.
+      Ex: console.log(this) <==run by itself.
+
+  2. Implicit Binding - "this" refers to the principle of a called function; 
+      the object name--to the left of the dot method.
+
+  3. New Binding - "this" refers to an instance of an object created within a constructor function.
+      Ex: function Car(model, mpg){
+          this.model = model;
+          this.milesPerGallon = mpg;
+          this.tank = 0;
+          this.odometer = 0;
+          };
+
+  4. Explicit Binding - "this" refers to an instance of a constructor function `a new ConstFun()` when
+      the new instance is used to overwrite properties of the constructor function using .call and .appy.
+        Ex: const GamaPowered = function(name, alias) {
+              this.greeting = 'Code Name: ';
+              this.name = name;
+              this.alias = alias;
+              this.speak = function() {
+                console.log(this.name + ". " + this.greeting + this.alias);
+                console.log(this);
+              };
+            }
+            const richardJones = new GamaPowered('Richard Jones', 'A-Bomb');
+            const bruceBanner = new GamaPowered('Bruce Banner', 'The Hulk');
+
+            richardJones.speak.call(bruceBanner); 
+            richardJones.speak.apply(bruceBanner);
+
+*/
 
 ///////// END OF CHALLENGE /////////
 ///////// END OF CHALLENGE /////////
